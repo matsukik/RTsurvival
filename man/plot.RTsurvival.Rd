@@ -1,0 +1,60 @@
+\name{plot.RTsurvival}
+\alias{plot.RTsurvival}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+plot Method for the object of class \code{RTsurvival}
+}
+\description{
+This function plot the survival curves and divergence point much in line with the ones used in Reingold & Sheridan (2014).
+}
+\usage{
+\method{plot}{RTsurvival}(x, dp.point, dif.plot = FALSE, add.arrows = FALSE,
+xlab = "Duration", ylab, legend = TRUE, legend.txt, legend.inset = 0.05, ...)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{
+An object of class \code{RTsurvival}
+}
+  \item{dp.point}{
+(optional.) An object of class \code{DPA} or a numeric vector correspoinding to the divergence point.
+}
+  \item{dif.plot}{
+logical. If \code{TRUE}, difference between two conditions rather than curves for each condition will be plotted. Default to \code{FALSE}.
+}
+  \item{add.arrows}{
+logical. Only used when \code{dp.point} is supplied. If \code{TRUE}, an allow pointing to the divergence point and the corresponding value of divergence point will be printed. Defaul to \code{FALSE}.
+}
+  \item{xlab}{
+A title used for the x axis.
+}
+  \item{ylab}{
+A title used for the y axis.
+}
+  \item{legend}{
+logical. If \code{TRUE} (default), legend will be printed.
+}
+  \item{legend.txt}{
+character vector. If supplied, its element will be used for the legend.
+}
+  \item{legend.inset}{
+distance of legend (placed in topright) from the margins.
+}
+  \item{\dots}{
+Any other arguments to be passed to plotting methods. Currently ignored.
+}
+}
+
+\references{
+Reingold, E. M. & Sheridan, H. (2014). Estimating the divergence point: A novel distributional analysis procedure for determining the onset of the influence of experimental variables. Frontiers in Psychology. doi: 10.3389/fpsyg.2014.01432.
+}
+\seealso{
+\code{\link{surv.mean}}, \code{\link{surv.curv}}, \code{\link{DPA.orig}}
+}
+\examples{
+data(DPAsample)
+msc1 <- surv.mean(DPAsample$subject, DPAsample$duration, DPAsample$condition)
+dp1 <- DPA.ci(DPAsample$subject, DPAsample$duration, DPAsample$condition)
+plot(msc1, dp1, add.arrows = TRUE, legend.txt = c("Fast Condition", "Slow Condition"))
+}
+\keyword{survival}

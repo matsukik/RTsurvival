@@ -1,0 +1,10 @@
+Package: RTsurvival
+Type: Package
+Title: Survival Analaysis and Divergence Point Estimation Methods for Reaction Time Data
+Version: 0.1
+Date: 2016-04-13
+Author: Kazunaga Matsuki
+Maintainer: Kazunaga Matsuki <matsukk@mcmaster.ca>
+Description: Functions to generate survival curves and perform divergence point analysis procedure that determines the onset of the effect of experimental manipulation on reaction time data such as eye-fixation duration and decision latency.
+License: GPL(>=3)
+LazyData: TRUE

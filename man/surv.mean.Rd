@@ -1,0 +1,55 @@
+\name{surv.mean}
+\alias{surv.mean}
+\title{
+Mean survival curves
+}
+\description{
+Obtain survival proportion per condition for each participant then calculate the means of each condition and difference btween the conditions.
+}
+\usage{
+surv.mean(subject, latency, condition, binsize = 1, window = 600)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{subject}{
+a vector speficying participant number or ID
+}
+  \item{latency}{
+a numeric vector containing the latency measures such as reaction time or fixation in millisecond.
+}
+  \item{condition}{
+a vector or factor specifying the experimental conditions. The conditions should be ordered such that the one that is expected to have shorter latencies (i.e., faster condition) comes first.
+}
+  \item{binsize}{
+numeric. The size of each timing bins in millisecond. Default to 1.
+}
+  \item{window}{
+numeric. The maximum window of the timing bin in millisecond. Default to 600.
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+A list of class \code{RTsurvival} containing
+  \item{curve}{Mean survival proportion at each timing bin for each condition in a data frame}
+  \item{differnece}{differnce in mean survival proportion between slower vs faster condition at each timing bins}
+  \item{binsize}{The same value supplied in the argument \code{binsize}}
+  \item{window}{The same value supplied in the argument \code{window}}
+}
+\references{
+Reingold, E. M. & Sheridan, H. (2014). Estimating the divergence point: A novel distributional analysis procedure for determining the onset of the influence of experimental variables. Frontiers in Psychology. doi: 10.3389/fpsyg.2014.01432.
+
+Reingold, E. M., Reichle, E. D., Glaholt, M. G., & Sheridan, H. (2012). Direct lexical control of eye movements in reading: Evidence from a survival analysis of fixation durations. Cognitive Psychology, 65, 177-206.
+}
+
+\seealso{
+\code{\link{surv.curv}}, \code{\link{DPA.orig}}
+}
+\examples{
+data(DPAsample)
+msc1 <- surv.mean(DPAsample$subject, DPAsample$duration, DPAsample$condition)
+plot(msc1)
+}
+
+\keyword{survival}

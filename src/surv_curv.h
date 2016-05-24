@@ -1,0 +1,1 @@
+void surv_curv(double *x, int *nx, double *bin, int *nbin, double *result);
