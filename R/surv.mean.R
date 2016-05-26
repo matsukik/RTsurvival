@@ -1,3 +1,43 @@
+#' Mean survival curves
+#'
+#' Obtain survival proportion per condition for each participant then calculate
+#' the means of each condition and difference btween the conditions.
+#'
+#'
+#' @param subject a vector speficying participant number or ID
+#' @param latency a numeric vector containing the latency measures such as
+#' reaction time or fixation in millisecond.
+#' @param condition a vector or factor specifying the experimental conditions.
+#' The conditions should be ordered such that the one that is expected to have
+#' shorter latencies (i.e., faster condition) comes first.
+#' @param binsize numeric. The size of each timing bins in millisecond. Default
+#' to 1.
+#' @param window numeric. The maximum window of the timing bin in millisecond.
+#' Default to 600.
+#' @return A list of class \code{RTsurvival} containing \item{curve}{Mean
+#' survival proportion at each timing bin for each condition in a data frame}
+#' \item{differnece}{differnce in mean survival proportion between slower vs
+#' faster condition at each timing bins} \item{binsize}{The same value supplied
+#' in the argument \code{binsize}} \item{window}{The same value supplied in the
+#' argument \code{window}}
+#' @seealso \code{\link{surv.curv}}, \code{\link{DPA.orig}}
+#' @references Reingold, E. M. & Sheridan, H. (2014). Estimating the divergence
+#' point: A novel distributional analysis procedure for determining the onset
+#' of the influence of experimental variables. Frontiers in Psychology. doi:
+#' 10.3389/fpsyg.2014.01432.
+#'
+#' Reingold, E. M., Reichle, E. D., Glaholt, M. G., & Sheridan, H. (2012).
+#' Direct lexical control of eye movements in reading: Evidence from a survival
+#' analysis of fixation durations. Cognitive Psychology, 65, 177-206.
+#' @keywords survival
+#' @examples
+#'
+#' data(DPAsample)
+#' msc1 <- surv.mean(DPAsample$subject, DPAsample$duration, DPAsample$condition)
+#' plot(msc1)
+#'
+#' @export
+#'
 surv.mean <- function(subject, latency, condition,
                       binsize = 1, window = 600)
 {
@@ -24,84 +64,5 @@ surv.mean <- function(subject, latency, condition,
   res
 }
 
-plot.RTsurvival <- function(x, dp.point, dif.plot=FALSE, add.arrows = FALSE,
-                            xlab = "Duration", ylab, legend=TRUE, legend.txt, legend.inset=.05, ...)
-{
-  bins <- seq(0,x$window,by=x$binsize)
-  if(dif.plot)
-  {
-    if(missing(ylab)) ylab = "Proportion"
-    plot(x=bins, y = x$difference, type='l', xlab=xlab, ylab=ylab)
-  } else {
-    lty <- c("dashed", "solid")
-    if(missing(ylab)) ylab = "Survival (%)"
-    plot(x=bins, y=x$curve[,1]*100, type='l', xlab=xlab, ylab=ylab, lty=lty[1])
-    lines(x=bins, y=x$curve[,2]*100, lty=lty[2])
 
-    if(!missing(dp.point))
-    {
-      if(inherits(dp.point, "DPA"))
-      {
-        if(dp.point$type == "Original")
-        {
-          lty <- c(lty, "dotted")[1:3]
-          abline(v=dp.point$dp, lty=lty[3])
-          ast.range <- seq(from=dp.point$dp, to=dp.point$dp.max)
-          ast.vect <- rep("*", time=length(ast.range))
-          text(ast.vect, x=ast.range, y=100)
-        }
-        else if(dp.point$type == "CI")
-        {
-          abline(v=dp.point$dp)
-          abline(v=dp.point$ci[1], lty='dotted')
-          abline(v=dp.point$ci[2], lty='dotted')
-        }
-        if(add.arrows)
-        {
-          arrows(0,35,dp.point$dp-5, 35)
-          text(x=(dp.point$dp-5)/2, y=45, label=dp.point$dp, cex=1.5)
-        }
-      } else if(numeric(dp.point)) {
-        abline(v=dp.point)
-      }
-    }
 
-    if(legend){
-      if(missing(legend.txt)) legend.txt <- names(x$curve)[1:2]
-      if(!missing(dp.point)){
-        if(dp.point$type == "Original") legend.txt <- c(legend.txt, "Divergence Point")[1:3]
-      }
-      legend("topright", legend=legend.txt, lty=lty, inset=legend.inset)
-    }
-  }
-}
-
-# .surv.curv.old <- function(x, .bin, sample=FALSE, sample.n=length(x), replace=TRUE)
-# {
-#    if(sample)  x <- sample(x, size = sample.n, replace=replace)
-#    sapply(.bin, function(val, dat){sum(dat>val)/length(dat)}, dat=x)
-# }
-
-# .surv.curv.oldest <- function(x, .bin, sample=FALSE, sample.n=length(x), replace=TRUE)
-# {
-#   if(sample)  x <- sample(x, size = sample.n, replace=replace)
-#   n.row <- length(x)
-#   n.col <- length(.bin)
-#   latency_mat <- matrix(rep(x,n.col), nrow=n.row, ncol=n.col, byrow=FALSE)
-#   bin_mat <- matrix(rep(.bin,n.row), nrow=n.row, ncol=n.col, byrow=TRUE)
-#   res <- colMeans(matrix(latency_mat>bin_mat, nrow=n.row, ncol=n.col, byrow=FALSE))
-#   attr(res, "median") <- median(res)
-#   res
-# }
-
-surv.curv <- function(x, .bin, sample=FALSE, sample.n=length(x), replace=TRUE) {
-  if(sample)  x <- sample(x, size = sample.n, replace=replace)
-  res <- rep(0, length(.bin))
-  res <- .C("surv_curv",
-            as.double(x),
-            as.integer(length(x)),
-            as.double(.bin),
-            as.integer(length(.bin)),
-            res)
-  res[[5]]
-}
