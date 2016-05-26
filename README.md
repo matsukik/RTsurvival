@@ -13,11 +13,10 @@ This package implements following routines:
 All of the above routine comes with associated `plot` function for easy plotting.
 
 To install the RTsurvival package from GitHub, first install devtools and then run
+```
+devtools::install_github("matsukik/RTsurvival")
+```
 
-  devtools::install_github("matsukik/RTsurvival")
-  
-  
 Any pull/feature requests, bug reports, etc. are welcome!
 
 
-  
