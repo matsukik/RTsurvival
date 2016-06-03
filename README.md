@@ -1,10 +1,10 @@
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 RTsurvival
-==========
+================
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Build Status](https://travis-ci.org/matsukik/RTsurvival.svg)](https://travis-ci.org/matsukik/RTsurvival)
 
-A set of functions to perform survival analysis on reaction time (RT) data.
+A set of R functions to perform survival analysis on reaction time (RT) data.
 
 Origianl MATLAB routines
 ------------------------
@@ -70,7 +70,7 @@ library(ggplot2)
 ggplot(DPAsample, aes(x=duration, fill=condition)) + geom_density(alpha=.2)
 ```
 
-![](README_files/plot-density-1.png)<!-- -->
+![](README_files/plot-density-1.png)
 
 As you will see below, it is critical that levels of the condition is ordered such that the faster condition comes first (either in term of number or as the level of a factor).
 
@@ -83,7 +83,7 @@ mean.curv <- surv.mean(DPAsample$subject, DPAsample$duration, DPAsample$conditio
 plot(mean.curv)
 ```
 
-![](README_files/plot-surv.mean-1.png)<!-- -->
+![](README_files/plot-surv.mean-1.png)
 
 The `surv.mean` function is a wrapper around a function `surv.curv`. To calculate or plot survival curve for a single condition for a single participant (e.g., subject 1 condition 1), do:
 
@@ -94,7 +94,7 @@ surv.rate <- surv.curv(tmp$duration, .bin = bins)
 plot(x=bins, y=surv.rate)
 ```
 
-![](README_files/plot-surv.curv-1.png)<!-- -->
+![](README_files/plot-surv.curv-1.png)
 
 You can also plot the mean difference between the curves by setting `dif.plot = TRUE`:
 
@@ -102,7 +102,7 @@ You can also plot the mean difference between the curves by setting `dif.plot = 
 plot(mean.curv, dif.plot = TRUE)
 ```
 
-![](README_files/plot-surv.mean.diff-1.png)<!-- -->
+![](README_files/plot-surv.mean.diff-1.png)
 
 As mentioned earlier, if the condition is not coded properly, the plot will be an mirror image and the divergence point analysis will most likely fail:
 
@@ -112,7 +112,7 @@ mean.curv2 <- surv.mean(DPAsample$subject, DPAsample$duration, DPAsample$conditi
 plot(mean.curv2,dif.plot = TRUE)
 ```
 
-![](README_files/plot-surv.mean.diff.wrong-1.png)<!-- -->
+![](README_files/plot-surv.mean.diff.wrong-1.png)
 
 ### Divergence Point Analysis (DPA)
 
@@ -129,8 +129,8 @@ print(ci.dpa)
 #> Divergence Point Estimate:
 #> [1] 146
 #> Confidence Interval:
-#>    2.5%   97.5% 
-#> 133.975 157.000
+#>  2.5% 97.5% 
+#>   133   156
 ```
 
 For more details on the other arguments and available outputs, please refer to the help topics.
@@ -141,4 +141,4 @@ The resulting object of DPA.ci (as well as `DPA.orig` and `DPA.ip`) can be fed t
 plot(mean.curv, dp.point = ci.dpa, add.arrows = TRUE)
 ```
 
-![](README_files/plot.dpa.ci-1.png)<!-- -->
+![](README_files/plot.dpa.ci-1.png)
