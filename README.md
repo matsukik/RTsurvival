@@ -19,7 +19,7 @@ This package implements following routines:
 -   `surv.mean` which computes the mean survival curves (or difference curve) of RT data from a two condition experiment with multiple participants.
 -   `DPA.orig` which performs divergence point analysis that were introduced in Reingold, Reichle, Glaholt, & Sheridan, (2012).
 -   `DPA.ci` which estimates the divergence point and its confidence interval, so that the significance of the difference between experimental conditions can be assessed.
--   `DPA.id` which estimates the individual specific divergence point for each participants.
+-   `DPA.ip` which estimates the individual specific divergence point for each participants.
 
 All of the above routines come with an associated `plot` function for easy plotting.
 
